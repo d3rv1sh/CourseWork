@@ -3,6 +3,7 @@ import os
 from webob import Request, Response
 
 from .views.index_pages import IndexPages
+from .views.payment_card_pages import PaymentCardPages
 
 class SampleApp:
     def __init__(self, storage_dir):
@@ -10,8 +11,16 @@ class SampleApp:
 
     def __call__(self, environ, start_response):
         req = Request(environ)
-        view = IndexPages()
-        page = view.render()
+        routes = { '/cw/cards': self.cards }
+        try:
+            page = routes[req.path_info](req)
+        except KeyError or AssertionError:
+            page = 'Error'
         response = Response(page, content_type='text/html')
         return response(environ, start_response)
+
+    def cards(self, req):
+        view = PaymentCardPages()
+        return view.render()
+
 

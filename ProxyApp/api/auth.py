@@ -20,7 +20,7 @@ class AuthApi:
             cur = db.execute("""
                 SELECT employee_id, passwd_hash, passwd_salt
                 FROM employee_logins
-                WHERE login = %s
+                WHERE login = %s;
             """, data['login'])
 
             res = cur.fetchone()
@@ -60,7 +60,7 @@ class AuthApi:
             cur = db.execute("""
                 SELECT subject_class, subject_id
                 FROM auth_tokens
-                WHERE token = %s AND valid_until > (NOW())
+                WHERE token = %s AND valid_until > (NOW());
             """, token)
             res = cur.fetchone()
             if res is not None:

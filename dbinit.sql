@@ -3,13 +3,14 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS
   employees,
   employee_logins,
-  payment_methods;
+  payment_methods,
+  auth_tokens;
 
 CREATE TABLE
   payment_methods (
     id INT NOT NULL AUTO_INCREMENT,
     employee_id INT NOT NULL,
-    card VARCHAR(255) NOT NULL,
+    card_number VARCHAR(32) NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE
   )
@@ -90,5 +91,32 @@ INSERT INTO employee_logins (employee_id, login, passwd_hash, passwd_salt)
           "james",
           "dummy",
           "pF7xu220NtQf2CM8y2coWsN5do445bu34122yC7P7Qo8c6Re74lubr6kw5TM3jCo");
+
+#
+# Populate payment methods
+
+INSERT INTO payment_methods (employee_id, card_number)
+  VALUES ((SELECT id FROM employees WHERE first_name = "Dexter" LIMIT 1), "4864 1323 5783 2522");
+
+INSERT INTO payment_methods (employee_id, card_number)
+  VALUES ((SELECT id FROM employees WHERE first_name = "Dexter" LIMIT 1), "5775 2457 1631 4656");
+
+UPDATE employees
+  SET payment_method_id = (SELECT id FROM payment_methods WHERE card_number = "4864 1323 5783 2522" LIMIT 1)
+  WHERE first_name = "Dexter";
+
+INSERT INTO payment_methods (employee_id, card_number)
+  VALUES ((SELECT id FROM employees WHERE first_name = "Olivia" LIMIT 1), "2544 3462 2436 6846");
+
+UPDATE employees
+  SET payment_method_id = (SELECT id FROM payment_methods WHERE card_number = "2544 3462 2436 6846" LIMIT 1)
+  WHERE first_name = "Olivia";
+
+INSERT INTO payment_methods (employee_id, card_number)
+  VALUES ((SELECT id FROM employees WHERE first_name = "James" LIMIT 1), "5565 7863 5475 6733");
+
+UPDATE employees
+  SET payment_method_id = (SELECT id FROM payment_methods WHERE card_number = "5565 7863 5475 6733" LIMIT 1)
+  WHERE first_name = "James";
 
 SET FOREIGN_KEY_CHECKS = 1;

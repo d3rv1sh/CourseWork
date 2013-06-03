@@ -1,6 +1,7 @@
 
 from .snippets import *
 from .auth import AuthApi
+from .payment import PaymentApi
 from ..database import DataContext
 
 @singleton
@@ -39,8 +40,31 @@ class EmployeeApi:
                 raise AssertionError('Employee not found')
         return data
 
+    def get_payment_methods(self, query,  subject):
+        # Params list validation
+        check_whitelist(query, ['id'])
+        check_mandatory(query, ['id'])
+
+        # Params data validation
+        data = { 'id': int_param(query['id']) }
+        if subject['class'] == 'employee':
+            if int(subject['id']) != data['id']:
+                raise AssertionError('Access violation')
+        elif subject['class'] == 'superuser':
+            raise AssertionError('Access violation. Payment methods are not available for superuser.')
+        else:
+            raise AssertionError('Access violation')
+
+        # Drop query for security reasons
+        query = None
+
+        # Querying private API
+        data['methods'] = PaymentApi().private_get_masked_payment_methods(data['id'])
+        return data
+
     def __init__(self):
-        self.map = { 'getPersonalDetails': self.get_personal_details }
+        self.map = { 'getPersonalDetails': self.get_personal_details,
+                     'getPaymentMethods':  self.get_payment_methods, }
 
     def execute(self, query):
         method = query['method']

@@ -6,7 +6,7 @@ from ProxyApp import ProxyApp
 
 def main():
     host = 'localhost'
-    port = 8086
+    port = 8084
 
     app = ProxyApp()
     httpd = make_server(host, port, app)

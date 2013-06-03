@@ -39,3 +39,6 @@ def hash_password(password, salt):
 
 def generate_token():
     return hashlib.sha256(os.urandom(128)).hexdigest()
+
+def mask_card_number(number):
+    return '####{0}'.format(number[-4:])
