@@ -22,8 +22,18 @@ class PaymentApi:
         # SQL operations
         with DataContext() as db:
             cur = db.execute("""
+                SELECT id
+                FROM payment_methods
+                WHERE id = %s AND employee_id = %s
+                LIMIT 1;
+            """, (method_id, employee_id))
+            res = cur.fetchone()
+            if res[0] != method_id:
+                raise AssertionError('Access violation')
+
+            cur = db.execute("""
                 UPDATE employees
-                SET payment_method_id = %s,
+                SET payment_method_id = %s
                 WHERE id = %s;
             """, (method_id, employee_id))
             try:

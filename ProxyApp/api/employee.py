@@ -9,7 +9,10 @@ class EmployeeApi:
     def get_personal_details(self, query, subject):
         # Params list validation
         check_whitelist(query, ['id'])
-        check_mandatory(query, ['id'])
+        if subject['class'] != 'employee':
+            check_mandatory(query, ['id'])
+        if 'id' not in query:
+            query['id'] = subject['id']
 
         # Params data validation
         data = { 'id': int_param(query['id']) }
@@ -43,7 +46,10 @@ class EmployeeApi:
     def get_payment_methods(self, query,  subject):
         # Params list validation
         check_whitelist(query, ['id'])
-        check_mandatory(query, ['id'])
+        if subject['class'] != 'employee':
+            check_mandatory(query, ['id'])
+        if 'id' not in query:
+            query['id'] = subject['id']
 
         # Params data validation
         data = { 'id': int_param(query['id']) }
@@ -62,9 +68,37 @@ class EmployeeApi:
         data['methods'] = PaymentApi().private_get_masked_payment_methods(data['id'])
         return data
 
+    def set_payment_method(self, query,  subject):
+        # Params list validation
+        check_whitelist(query, ['id', 'method_id'])
+        check_mandatory(query, ['method_id'])
+        if subject['class'] != 'employee':
+            check_mandatory(query, ['id'])
+        if 'id' not in query:
+            query['id'] = subject['id']
+
+        # Params data validation
+        data = { 'id': int_param(query['id']),
+                 'method_id': int_param(query['method_id'])}
+        if subject['class'] == 'employee':
+            if int(subject['id']) != data['id']:
+                raise AssertionError('Access violation')
+        elif subject['class'] == 'superuser':
+            raise AssertionError('Access violation. Payment methods are not available for superuser.')
+        else:
+            raise AssertionError('Access violation')
+
+        # Drop query for security reasons
+        query = None
+
+        # Querying private API
+        PaymentApi().private_set_default_payment_method(data['id'], data['method_id'])
+        return data
+
     def __init__(self):
         self.map = { 'getPersonalDetails': self.get_personal_details,
-                     'getPaymentMethods':  self.get_payment_methods, }
+                     'getPaymentMethods':  self.get_payment_methods,
+                     'setPaymentMethod':   self.set_payment_method, }
 
     def execute(self, query):
         method = query['method']

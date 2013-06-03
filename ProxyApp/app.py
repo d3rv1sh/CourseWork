@@ -5,7 +5,7 @@ from webob import Request, Response
 from .api import Api
 
 class ProxyApp:
-    params_filter = ['method', 'id', 'login', 'password', 'token']
+    params_filter = ['method', 'id', 'login', 'password', 'token', 'method_id']
 
     def __call__(self, environ, start_response):
         req = Request(environ)

@@ -1,8 +1,13 @@
-<form action="/set_payment_card" method="POST">
+<form action="/cw/set_payment_card" method="POST">
     <label for="field_card_id">Card number</label><br/>
     <select name="card_id" id="field_card_id">
     {% for card in cards %}
-        <option value="{{ card.id }}">{{ card.card_number }}</option>
+        <option value="{{ card.id }}">
+            {{ card.card_number }}
+        </option>
     {% endfor %}
-    </select>
+    </select><br/>
+    <input type="submit" value="Set as default"/>
 </form>
+<p>{{ form_message }}</p>
+<a href="/cw">Return to Home</a>
