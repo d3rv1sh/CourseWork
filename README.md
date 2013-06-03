@@ -1,7 +1,10 @@
 CourseWork
 ==========
 
-Proxy methods
+##Demo app
+Hosted on https://nz.[a c m e r].me/cw (without spaces and braces)
+
+##Proxy methods
 
 ###auth.getEmployeeToken
 Returns auth token for employee by login and password
@@ -36,4 +39,16 @@ return
   [method]
     id
     card_number
+</pre>
+
+###employee.setPaymentMethod
+Set default payment method for employee.
+<pre>
+params
+  id
+  method_id
+  token
+return
+  id
+  method_id
 </pre>
