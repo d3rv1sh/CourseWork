@@ -1,6 +1,7 @@
 from .snippets import *
 from .employee import EmployeeApi
 from .auth import AuthApi
+from .payment import PaymentApi
 
 @singleton
 class Api:
@@ -10,9 +11,13 @@ class Api:
     def auth(self, query):
         return AuthApi().execute(query)
 
+    def payment(self, query):
+        return PaymentApi().execute(query)
+
     def __init__(self):
         self.map = { 'employee': self.employee,
-                     'auth':     self.auth, }
+                     'auth':     self.auth,
+                     'payment':  self.payment }
 
     def execute(self, query):
         method = query['method'].split('.', 2)

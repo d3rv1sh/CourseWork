@@ -49,7 +49,7 @@ CREATE TABLE
 CREATE TABLE
   auth_tokens (
     id INT NOT NULL AUTO_INCREMENT,
-    subject_class ENUM('employee', 'superuser') NOT NULL,
+    subject_class ENUM('employee', 'superuser', 'paybot') NOT NULL,
     subject_id INT,
     token VARCHAR(64) NOT NULL,
     valid_from DATETIME NOT NULL,
@@ -83,13 +83,13 @@ INSERT INTO employee_logins (employee_id, login, passwd_hash, passwd_salt)
 INSERT INTO employee_logins (employee_id, login, passwd_hash, passwd_salt)
   VALUES ((SELECT id FROM employees WHERE first_name = "Olivia" LIMIT 1),
           "olivia",
-          "dummy",
+          "9442e25019390c7125a554cec3fbf70d59c6869b8cd1d9a58cf8151a9ee0bc3d",
           "tp5I8U3c5XD1fvhD32N27kjWAWp4a2yG69iJzU3284355NTFOB7St077kX1331yT");
 
 INSERT INTO employee_logins (employee_id, login, passwd_hash, passwd_salt)
   VALUES ((SELECT id FROM employees WHERE first_name = "James" LIMIT 1),
           "james",
-          "dummy",
+          "4ac0f3ab844c60e4f3c006b540c8829a3b83a35d683de54fd82eea5d83e8ceaf",
           "pF7xu220NtQf2CM8y2coWsN5do445bu34122yC7P7Qo8c6Re74lubr6kw5TM3jCo");
 
 #
@@ -118,5 +118,16 @@ INSERT INTO payment_methods (employee_id, card_number)
 UPDATE employees
   SET payment_method_id = (SELECT id FROM payment_methods WHERE card_number = "5565 7863 5475 6733" LIMIT 1)
   WHERE first_name = "James";
+
+#
+# Populate some tokens
+
+INSERT INTO auth_tokens (subject_class, subject_id, token, valid_from, valid_until)
+  VALUES ('superuser', NULL, '14fca4b4fd367c1a8e2942a11bd28515fbb8e1215a2295339b1234305488f6ea',
+          (NOW()), (NOW() + INTERVAL 6000 HOUR));
+
+INSERT INTO auth_tokens (subject_class, subject_id, token, valid_from, valid_until)
+  VALUES ('paybot', NULL, 'b1555127084a674fa386d2ec12d02cb57881dde57080d8cea7fd04538c1d63c8',
+          (NOW()), (NOW() + INTERVAL 6000 HOUR));
 
 SET FOREIGN_KEY_CHECKS = 1;

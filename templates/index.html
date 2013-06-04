@@ -1,15 +1,26 @@
 {% if login_form is defined %}
-    <h3>Login</h3>
+    <h3>Авторизация</h3>
     {{ login_form }}
+    Вы можете воспользоваться тестовыми аккаунтами
+    <ul>
+        <li>dexter dexter123</li>
+        <li>olivia olivia123</li>
+        <li>james james123</li>
+    </ul>
 {% else %}
-    <a href="/cw/cards">View your payment cards</a>
+    <p>
+    <a href="/cw/cards">Посмотреть ваши банковские карты</a><br/>
+    <a href="/cw/logout">Выйти</a>
+    </p>
 {% endif %}
+<p><a href="/cw/paybot/cards">Показать все карты (как для платежного робота)</a><br/>
+Используется token, использующий привелегии платежного робота</p>
 <h3>SQL Data proxy test app</h3>
 <p>
     Welcome!<br/>
-    This app is created to demonstrate proof of concept.<br/>
-    It's constructed from MySQL, Data proxy with strict REST API and simple web app.
+    Это приложение носит демонстрационный характер.<br/>
+    Оно состоит из СУБД MySQL, проксирующего приложения и тестового веб-приложения.
 </p>
 <p>
-    Open source on <a href="https://github.com/d3rv1sh/CourseWork">GitHub</a>
+    Исходный код на <a href="https://github.com/d3rv1sh/CourseWork">GitHub</a>
 </p>

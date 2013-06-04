@@ -29,7 +29,7 @@ class AuthApi:
                 passwd_hash = res[1]
                 passwd_salt = res[2]
                 expected_hash = hash_password(passwd, passwd_salt)
-                #print (expected_hash)
+                print(expected_hash)
                 if passwd_hash == expected_hash:
                     token = self.private_authorize_token('employee', data['id'])
                     data = { 'token': token }

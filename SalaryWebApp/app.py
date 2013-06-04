@@ -14,8 +14,10 @@ class SampleApp:
         req = Request(environ)
         routes = { '/cw': self.index,
                    '/cw/login': self.login,
+                   '/cw/logout': self.logout,
                    '/cw/cards': self.cards,
-                   '/cw/set_payment_card': self.set_payment_card }
+                   '/cw/set_payment_card': self.set_payment_card,
+                   '/cw/paybot/cards': self.paybot_cards }
 
         if req.path_info in routes:
             handler = routes[req.path_info]
@@ -65,6 +67,17 @@ class SampleApp:
         view.data_context = { 'cards': data['methods'] }
         return {'page': view.render()}
 
+    def paybot_cards(self, req, token=None):
+        params = { 'token': 'b1555127084a674fa386d2ec12d02cb57881dde57080d8cea7fd04538c1d63c8' }
+        data = proxy_api_call('payment.getAllPaymentMethods', params)
+        if 'error' in data:
+            raise AssertionError(data['error'])
+
+        view = PaymentCardPages()
+        view.data_context = { 'cards': data['employee_cards'] }
+        view.variant = 'paybot'
+        return {'page': view.render()}
+
     def set_payment_card(self, req, token=None):
         try:
             params = { 'token': token, 'method_id': req.params['card_id'] }
@@ -98,6 +111,12 @@ class SampleApp:
         res = { 'set_cookies': [('token', data['token'])],
                 'redirect_to': 'https://nz.acmer.me/cw',
                 'page': 'Succesful login'}
+        return res
+
+    def logout(self, req, token=None):
+        res = { 'set_cookies': [('token', 'logged_out')],
+                'redirect_to': 'https://nz.acmer.me/cw',
+                'page': 'Succesful logout'}
         return res
 
 
