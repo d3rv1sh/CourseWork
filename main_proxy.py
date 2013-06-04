@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+# Проксирующее приложение с HTTP интерфейсом
+
 from wsgiref.simple_server import make_server
 
 from ProxyApp import ProxyApp

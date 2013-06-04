@@ -1,13 +1,16 @@
 <form action="/cw/login" method="POST">
-    <div>
-        <label for="field_login">Login</label><br/>
-        <input id="field_login" name="login" type="text"/>
+    <table>
+        <tr>
+            <td><label for="field_login">Login:</label><br/></td>
+            <td><input id="field_login" name="login" type="text"/></td>
+        </tr>
+        <tr>
+            <td><label for="field_password">Password:</label><br/></td>
+            <td><input id="field_password" name="password" type="password"/></td>
+        </tr>
+    </table>
+    <div style="text-align: center;">
+        <input class="classname" style="float: right; width: 100px; margin: 5px  15px 5px 0" value="Log In" type="submit"/>
     </div>
-    <div>
-        <label for="field_password">Password</label><br/>
-        <input id="field_password" name="password" type="password"/>
-    </div>
-    <div>
-        <input value="Log In" type="submit"/>
-    </div>
+    <div class="clear"></div>
 </form>

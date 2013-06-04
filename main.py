@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+# Демонстрационное веб-приложение
+
 from wsgiref.simple_server import make_server
 
 from SalaryWebApp import SampleApp

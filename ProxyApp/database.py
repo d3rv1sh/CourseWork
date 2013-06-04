@@ -1,7 +1,10 @@
 import pymysql
 
 class DataContext:
-    #Params
+    """
+    Класс-обертка для использования подключения к СУБД
+    """
+    # Параметры подключения к СУБД
     server   = {'host': '127.0.0.1',
                 'port': 3306 }
     user     = {'username': 'cwork',

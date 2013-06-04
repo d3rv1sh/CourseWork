@@ -2,11 +2,97 @@
 <html>
 <head>
     <title>{{ title }}</title>
+    <style type="text/css">
+        body {
+            background-color: #DCD191;
+            font-family: "PT Sans", Trebutchet MS, sans-serif;
+        }
+        #wrap {
+            width: 400px;
+            margin: 5% auto 0 auto;
+            border: 2px solid #BF6263;
+            padding: 20px;
+            box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.5);
+            background-color: #E5B278;
+        }
+        label {
+            font-size: 20px;
+            display: inline-block;
+            float: left;
+            color: #592E2E;
+        }
+        #center {
+            text-align: center;
+            margin-bottom: 23px;
+        }
+        #center p {
+            margin-top: 0;
+            color: #874546;
+            font-weight: bold;
+        }
+        #center p span {
+            margin-top: 0;
+            color: #656636;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+        select, input[type="text"],input[type="password"]  {
+            width: 275px;
+            display: inline-block;
+            float: left;
+            height: 35px;
+            margin: -4px 0 5px 10px;
+            background: #E39871;
+            font-size: 18px;
+            color: #444;
+            border: 0;
+            font-weight: bold;
+            padding-left: 10px;
+            font-style: italic;
+        }
+        .clear {
+            clear: both;
+            height: 0;
+        }
+        .classname.right {
+            background: #E39871;
+            border:2px solid #bf6264;
+        }
+        .classname {
+            margin:0;
+            float: left;
+
+            background: #AEB05D;
+            -moz-border-radius:6px;
+            -webkit-border-radius:6px;
+            border-radius:6px;
+            border:2px solid #C7C96A;
+            display:inline-block;
+            color:#494A27;
+            font-family:arial;
+            font-size:14px;
+            font-weight:bold;
+            padding:6px 24px;
+            text-decoration:none;
+        }.classname:hover {
+             color: black;
+             cursor: pointer;
+             box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
+         }.classname:active {
+              position:relative;
+              top:1px;
+          }
+        h3 {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
+<div id="wrap">
     <div>
         <p>{{ greetings }}</p>
     </div>
 {{ content }}
+</div>
 </body>
 </html>
